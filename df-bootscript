@@ -1,0 +1,16 @@
+# replace df_linux/df with this bootscript. run it when all steps are done to init everything.
+#!/bin/sh
+DF_DIR=$(dirname "$0")
+cd "${DF_DIR}"
+export SDL_DISABLE_LOCK_KEYS=1 # Work around for bug in Debian/Ubuntu SDL patch.
+#export SDL_VIDEO_CENTERED=1 # Centre the screen.  Messes up resizing.
+export DISPLAY=:1
+Xorg :1 -config ../Xorg.conf -logfile ../Xorg.log &
+sleep 3
+x11vnc -display :1 -passwdfile read:../passwd -shared -listen localhost -xkb -ncache 10 -ncache_cr -forever &
+sleep 3
+../noVNC/utils/launch.sh --vnc localhost:5900 --listen $PORT &
+sleep 3
+./libs/Dwarf_Fortress # Go Go Go! :)
+killall Xorg
+
