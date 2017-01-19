@@ -9,7 +9,7 @@ Xorg :1 -config ../Xorg.conf -logfile ../Xorg.log &
 sleep 3
 x11vnc -display :1 -passwdfile read:../passwd -shared -listen localhost -xkb -ncache 10 -ncache_cr -forever &
 sleep 3
-../noVNC/utils/launch.sh --vnc localhost:5900 --listen $PORT &
+../noVNC/utils/launch.sh --vnc localhost:5900 --listen 8080 &
 sleep 3
 ./libs/Dwarf_Fortress # Go Go Go! :)
 killall Xorg
